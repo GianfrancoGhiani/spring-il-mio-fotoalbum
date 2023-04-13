@@ -1,5 +1,6 @@
 package org.project.fotoalbum.springilmiofotoalbum.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -13,9 +14,10 @@ public class Category {
     private Integer id;
 
     @Column(nullable = false, unique = true)
-    @NotBlank
+    @NotBlank(message = "The name field cannot be empty")
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "categories")
     private List<Photo> photos;
 

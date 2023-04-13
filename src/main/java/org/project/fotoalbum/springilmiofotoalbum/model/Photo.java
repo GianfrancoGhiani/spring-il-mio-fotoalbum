@@ -2,6 +2,7 @@ package org.project.fotoalbum.springilmiofotoalbum.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -18,12 +19,15 @@ public class Photo {
     @Size(min = 3, message = "The name must be longer than 3 chars")
     private String title;
     @Lob
+    @Size(max = 255, message = "This field can have at least 255 chars")
     private String description;
     @Column(nullable = false)
-    @NotBlank
+    @NotBlank(message = "The url field cannot be empty")
     @Lob
+    @Size(max = 255, message = "This field can have at least 255 chars")
     private String url;
     @Column(nullable = false)
+    @NotNull
     private boolean visible;
 
     @ManyToMany
