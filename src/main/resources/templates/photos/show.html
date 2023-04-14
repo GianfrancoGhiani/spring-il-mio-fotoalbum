@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <div th:replace="~{fragments/head :: headResources}"></div>
+
+    <meta charset="UTF-8">
+    <title>[[${photo.title}]]</title>
+</head>
+<body>
+<div class="container" th:object="${photo}">
+  <div class="wrapper">
+    <div class="d-flex justify-content-between align-items-center top-bar">
+      <h1>[[*{title}]]</h1>
+      <a th:href="@{/photos}" class="btn btn-info rounded-circle" title="Back to Photo list"><i
+              class="fa-solid fa-arrow-left"></i></a>
+    </div>
+    <div class="card container-fluid p-0">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <div>
+          <span th:each="cat : ${photo.categories}" class="bg-secondary text-white rounded-pill cat me-3">[[${cat.name}]]</span>
+        </div>
+      </div>
+      <div class="card-body d-flex flex-column align-items-center">
+        <div class="body-img">
+          <img th:src="@{${photo.url}}">
+        </div>
+        <div class="align-self-start">
+          <h4>Description:</h4>
+          <p>[[${photo.description}]]</p>
+
+        </div>
+      </div>
+      <div class="card-footer d-flex align-items-center justify-content-between">
+        <div><i class="fa-regular" th:classAppend="${photo.visible}? 'fa-eye' : 'fa-eye-slash' "></i>
+
+        </div>
+        <div>
+          <a th:href="@{|/photos/${photo.id}/edit|}" class="col-auto"><i
+                  class="fa-regular fa-pen-to-square"></i></a>
+          <a th:href="@{|/photos/delete/${photo.id}|}" class="col-auto"><i class="fa-regular fa-trash-can"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

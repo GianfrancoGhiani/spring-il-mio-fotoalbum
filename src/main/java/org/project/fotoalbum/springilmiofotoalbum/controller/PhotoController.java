@@ -36,6 +36,13 @@ public class PhotoController {
         }
         return "/photos/index";
     }
+
+    @GetMapping("/{id}")
+    public String showPhoto(Model model, @PathVariable("id")Integer id){
+        model.addAttribute("photo", photoService.getPhotoById(id));
+        return "/photos/show";
+    }
+
     @GetMapping("/create")
     public String goToCreate(Model model){
         model.addAttribute("photo", new Photo());

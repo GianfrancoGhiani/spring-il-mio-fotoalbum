@@ -71,4 +71,18 @@ public class PhotoService {
             return false;
         }
     }
+
+    //API METHODS
+    public List<Photo> getVisiblePhoto(){
+        return photoRepository.findByVisibleIsTrue();
+    }
+
+    public List<Photo> getVisiblePhotoFiltered(String name){
+        return photoRepository.findByTitleContainingIgnoreCaseAndVisibleIsTrue(name);
+    }
+
+    public Photo getVisibleSinglePhoto(Integer id){
+        return photoRepository.findByIdAndVisibleIsTrue(id);
+    }
+
 }

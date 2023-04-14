@@ -1,7 +1,8 @@
 body{
     background-image: url('https://img.freepik.com/free-vector/camera-viewfinder-display_1284-46867.jpg?w=1060&t=st=1681400042~exp=1681400642~hmac=3417e92c1a245439c06ba70173b895d9f7098ff9c6a9bac38687ed204201acdc');
     background-repeat: repeat;
-    background-size: 300px;
+    background-size: calc(100% / 7);
+    background-attachment: fixed;
 }
 .top-bar{
     position: fixed;
