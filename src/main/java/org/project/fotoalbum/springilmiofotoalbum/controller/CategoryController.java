@@ -3,6 +3,8 @@ package org.project.fotoalbum.springilmiofotoalbum.controller;
 import jakarta.validation.Valid;
 import org.project.fotoalbum.springilmiofotoalbum.exception.CategoryNotFoundException;
 import org.project.fotoalbum.springilmiofotoalbum.model.Category;
+import org.project.fotoalbum.springilmiofotoalbum.model.RedirectMessage;
+import org.project.fotoalbum.springilmiofotoalbum.model.RedirectMessage.RedirectMessageType;
 import org.project.fotoalbum.springilmiofotoalbum.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -65,13 +67,20 @@ public class CategoryController {
 
 
     @GetMapping("/delete/{id}")
-    public String deleteCat(@PathVariable("id")Integer id){
+    public String deleteCat(@PathVariable("id")Integer id, RedirectAttributes redirectAttributes){
         try {
-            categoryService.deleteById(id);
+            boolean deleted = categoryService.deleteById(id);
+            if (deleted){
+                redirectAttributes.addFlashAttribute("message", new RedirectMessage(RedirectMessageType.SUCCESS, "Category deleted."));
+            } else {
+                redirectAttributes.addFlashAttribute("message", new RedirectMessage(RedirectMessageType.ERROR, "Unable to delete this category"));
+            }
+
         } catch (CategoryNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e){
-            throw new RuntimeException(e);
+            redirectAttributes.addFlashAttribute("message", new RedirectMessage(RedirectMessageType.ERROR, "Unable to delete this category"));
+            return "redirect:/categories";
         }
         return "redirect:/categories";
     }
