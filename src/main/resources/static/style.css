@@ -43,3 +43,14 @@ body{
 .card-footer a{
     color: black;
 }
+.fa-solid{
+    color: black
+}
+.cat{
+    font-size: 12px;
+    font-weight: 600;
+    padding: .3rem .5rem;
+}
+.invalid-feedback li{
+    list-style: none;
+}

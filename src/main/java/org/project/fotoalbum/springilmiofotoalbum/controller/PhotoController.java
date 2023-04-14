@@ -66,7 +66,7 @@ public class PhotoController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-    @PostMapping("/{id}/edit")
+    @PostMapping("/edit/{id}")
     public String editPhotoToDB(@Valid @ModelAttribute Photo photo, BindingResult bindingResult, @PathVariable("id")Integer id, RedirectAttributes redirectAttributes, Model model){
         if (photo.getId() != id){
             bindingResult.addError(new FieldError("photo", "id", photo.getId(), false, null, null ,"Illegal action: trying to modifying photos changing id" ));
