@@ -35,18 +35,26 @@
             <div class="col-12 d-flex justify-content-center">
                 <form action="#" class="p-3 my-3 creation w-50 d-flex flex-column">
                     <h2>Contact us</h2>
-
+                    <div class="alert alert-danger text-center" v-if="!messageStatus">{{ alertMessage }}</div>
                     <div class="">
                         <label for="email">
                             <h6>Email</h6>
                         </label>
-                        <input type="text" class="form-control w-auto" name="email" id="email" v-model="formModel.email">
+                        <input type="text" class="form-control w-auto" name="email" id="email" v-model="formModel.email"
+                            :class="{ 'is-invalid': !messageStatus }">
+                        <div class="invalid-feedback" v-if="!messageStatus">
+                            <p v-if="errors.email.length > 0">{{ errors.email }}</p>
+                        </div>
                     </div>
                     <div class="my-3">
                         <label for="message">
                             <h6>Message</h6>
                         </label>
-                        <textarea class="form-control" name="message" id="message" v-model="formModel.message"></textarea>
+                        <textarea class="form-control" name="message" id="message" v-model="formModel.message"
+                            :class="{ 'is-invalid': !messageStatus }"></textarea>
+                        <div class="invalid-feedback" v-if="!messageStatus">
+                            <p v-if="errors.message.length > 0">{{ errors.message }}</p>
+                        </div>
                     </div>
 
                     <div class=""><button class="btn btn-info w-auto" @click.prevent="sendMessage()">Send</button></div>
@@ -68,6 +76,12 @@ export default {
             formModel: {
                 email: '',
                 message: ''
+            },
+            alertMessage: '',
+            messageStatus: true,
+            errors: {
+                email: '',
+                message: ''
             }
         }
     },
@@ -79,8 +93,21 @@ export default {
             })
         },
         sendMessage() {
+            this.alertMessage = '';
             axios.post(`${store.apiBaseUrl}/contacts`, JSON.stringify(this.formModel), { headers: { 'Content-Type': 'application/json' } }).then((res) => {
-                console.log(res);
+                if (res.data.success == "true") {
+                    this.formModel.email = '';
+                    this.formModel.message = '';
+                    this.alertMessage = 'Message sent correctly';
+                } else {
+                    this.messageStatus = false;
+                    this.alertMessage = 'Error found into the message form';
+                    if (res.data.email) {
+                        this.errors.email = res.data.email;
+                    }
+                    this.errors.message = res.data.message;
+                    console.log(res.data)
+                }
             })
         }
     },

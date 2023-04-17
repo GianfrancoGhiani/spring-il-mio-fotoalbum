@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
+
+  <div th:replace="~{fragments/head :: headResources}"></div>
+
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<body>
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center top-bar">
+    <h1>Message list</h1>
+    <div>
+      <a th:href="@{/photos}" class="btn btn-info">Photos Section</a>
+      <a th:href="@{/categories}" class="btn btn-info">Categories Section</a>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <table class="msgs wrapper w-50">
+      <thead>
+      <tr>
+        <th>Email</th>
+        <th>Message</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="m : ${list}" th:object="${m}">
+        <td th:text="*{email}"></td>
+        <td th:text="*{message}|"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

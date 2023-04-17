@@ -12,14 +12,14 @@ public class ContactMessage {
     private Integer id;
 
     @Column(nullable = false)
-    @NotBlank
+    @NotBlank(message = "The email field must be filled")
     @Email
     private String email;
 
 
     @Column(nullable = false)
     @Lob
-    @NotBlank
+    @NotBlank(message = "The message field must be filled")
     private String message;
 
 

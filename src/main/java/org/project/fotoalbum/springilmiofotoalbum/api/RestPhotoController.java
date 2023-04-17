@@ -11,11 +11,11 @@ import org.project.fotoalbum.springilmiofotoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/photos")
@@ -51,8 +51,19 @@ public class RestPhotoController {
         }
     }
     @PostMapping("/contacts")
-    public ContactMessage sendMessage(@Valid @RequestBody ContactMessage form) {
-        return contactService.createMessage(form);
+    public Map<String, String> sendMessage(@Valid @RequestBody ContactMessage form, BindingResult bindingResult) {
+        Map<String, String> response = new HashMap<>();
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError err : errors) {
+                response.put(err.getField(), err.getDefaultMessage());
+            }
+            response.put("success", "false");
+        } else {
+            contactService.createMessage(form);
+            response.put("success", "true");
+        }
+        return response;
     }
 
 }

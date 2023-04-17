@@ -5,6 +5,8 @@ import org.project.fotoalbum.springilmiofotoalbum.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContactService {
     @Autowired
@@ -15,5 +17,9 @@ public class ContactService {
         messageToDB.setEmail(formMessage.getEmail());
         messageToDB.setMessage(formMessage.getMessage());
         return contactRepository.save(messageToDB);
+    }
+
+    public List<ContactMessage> getAllMessages(){
+        return contactRepository.findAll();
     }
 }
