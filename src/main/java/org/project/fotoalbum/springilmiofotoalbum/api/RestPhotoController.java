@@ -51,7 +51,7 @@ public class RestPhotoController {
         }
     }
     @PostMapping("/contacts")
-    public ContactMessage sendMessage(@Valid @ModelAttribute ContactMessage form) {
+    public ContactMessage sendMessage(@Valid @RequestBody ContactMessage form) {
         return contactService.createMessage(form);
     }
 

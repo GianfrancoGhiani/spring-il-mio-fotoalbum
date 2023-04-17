@@ -2,9 +2,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center top-bar">
             <h1>Album</h1>
-            <div>
-                <a :href="categories" class="btn btn-info">Categories Section</a>
-            </div>
+
         </div>
         <div class="wrapper row row-cols-3">
             <div class="offset-9 col-3">
@@ -32,8 +30,27 @@
                             </div>
                         </router-link>
                     </div>
-
                 </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <form action="#" class="p-3 my-3 creation w-50 d-flex flex-column">
+                    <h2>Contact us</h2>
+
+                    <div class="">
+                        <label for="email">
+                            <h6>Email</h6>
+                        </label>
+                        <input type="text" class="form-control w-auto" name="email" id="email" v-model="formModel.email">
+                    </div>
+                    <div class="my-3">
+                        <label for="message">
+                            <h6>Message</h6>
+                        </label>
+                        <textarea class="form-control" name="message" id="message" v-model="formModel.message"></textarea>
+                    </div>
+
+                    <div class=""><button class="btn btn-info w-auto" @click.prevent="sendMessage()">Send</button></div>
+                </form>
             </div>
         </div>
     </div>
@@ -48,6 +65,10 @@ export default {
             store,
             photos: [],
             nameQuery: '',
+            formModel: {
+                email: '',
+                message: ''
+            }
         }
     },
     methods: {
@@ -55,6 +76,11 @@ export default {
             axios.get(store.apiBaseUrl, { params: { name: this.nameQuery } }).then((res) => {
                 //   console.log(res);
                 this.photos = res.data;
+            })
+        },
+        sendMessage() {
+            axios.post(`${store.apiBaseUrl}/contacts`, JSON.stringify(this.formModel), { headers: { 'Content-Type': 'application/json' } }).then((res) => {
+                console.log(res);
             })
         }
     },
@@ -65,5 +91,13 @@ export default {
 
 </script>
   
-<style></style>
+<style>
+.creation {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 3rem 7rem;
+    border-radius: 1rem;
+    border: 4px solid rgba(128, 128, 128, .6);
+    outline: 1px solid black;
+}
+</style>
   
