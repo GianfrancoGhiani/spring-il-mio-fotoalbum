@@ -1,6 +1,7 @@
 package org.project.fotoalbum.springilmiofotoalbum.api;
 
 import jakarta.validation.Valid;
+import org.project.fotoalbum.springilmiofotoalbum.exception.PhotoNotFoundException;
 import org.project.fotoalbum.springilmiofotoalbum.model.Category;
 import org.project.fotoalbum.springilmiofotoalbum.model.ContactMessage;
 import org.project.fotoalbum.springilmiofotoalbum.model.Photo;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/photos")
+@CrossOrigin
 public class RestPhotoController {
     @Autowired
     CategoryService categoryService;
@@ -40,7 +42,13 @@ public class RestPhotoController {
 
     @GetMapping("/{id}")
     public Photo getPhoto(@PathVariable("id")Integer id){
-        return photoService.getVisibleSinglePhoto(id);
+
+        try {
+            Photo photo = photoService.getVisibleSinglePhoto(id);
+            return photo;
+        } catch (PhotoNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
     @PostMapping("/contacts")
     public ContactMessage sendMessage(@Valid @ModelAttribute ContactMessage form) {

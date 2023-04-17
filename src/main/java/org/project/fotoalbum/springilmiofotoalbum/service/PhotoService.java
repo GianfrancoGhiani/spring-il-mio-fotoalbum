@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PhotoService {
@@ -81,8 +82,12 @@ public class PhotoService {
         return photoRepository.findByTitleContainingIgnoreCaseAndVisibleIsTrue(name);
     }
 
-    public Photo getVisibleSinglePhoto(Integer id){
-        return photoRepository.findByIdAndVisibleIsTrue(id);
+    public Photo getVisibleSinglePhoto(Integer id) throws PhotoNotFoundException{
+        Photo photo = photoRepository.findByIdAndVisibleIsTrue(id);
+        if (photo == null ){
+            throw new PhotoNotFoundException("Photo not found");
+        }
+        return photo;
     }
 
 }

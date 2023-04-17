@@ -35,6 +35,7 @@ public class SecurityConfiguration{
         httpSecurity.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST,  "/api/**").permitAll()
                 .requestMatchers("/api", "/api/**").permitAll()
+                .requestMatchers("/error/**").permitAll()
                 .requestMatchers("/**").hasAuthority("ADMIN")
                 .and().formLogin()
                 .and().logout()
